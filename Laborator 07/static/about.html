@@ -23,65 +23,140 @@
             padding: 32px 16px;
         }
         .profile-card {
-            width: min(920px, 100%);
+            width: min(1120px, 100%);
+            min-height: 560px;
             display: grid;
-            grid-template-columns: 0.9fr 1.1fr;
+            grid-template-columns: 1fr 1.2fr;
             overflow: hidden;
             border-radius: 26px;
             background: #ffffff;
             box-shadow: 0 28px 70px rgba(15, 23, 42, 0.12);
             border: 1px solid rgba(15, 23, 42, 0.06);
+            position: relative;
         }
         .identity-panel {
             background: linear-gradient(160deg, #174ea6, #2564cf);
             color: white;
-            padding: 42px;
+            padding: 54px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            gap: 34px;
+            justify-content: center;
         }
-        .initials {
-            width: 76px;
-            height: 76px;
-            border-radius: 22px;
-            display: grid;
-            place-items: center;
-            background: rgba(255, 255, 255, 0.18);
-            font-size: 30px;
+        .student-name {
+            font-size: clamp(34px, 4.8vw, 58px);
+            line-height: 1.02;
             font-weight: 700;
-            margin-bottom: 22px;
+            letter-spacing: -0.04em;
+            margin: 0;
+        }
+        .student-group {
+            width: fit-content;
+            margin-top: 22px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.16);
+            color: rgba(255, 255, 255, 0.92);
+            font-weight: 600;
         }
         .details-panel {
-            padding: 42px;
+            padding: 54px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
         }
-        .info-grid {
+        .section-title {
+            color: #174ea6;
+            font-size: clamp(34px, 4.4vw, 56px);
+            line-height: 1.02;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            margin: 0 0 28px;
+        }
+        .app-preview {
+            margin-top: auto;
+            margin-bottom: 42px;
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1px solid #dbe7f8;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+            background: #f8fafc;
+        }
+        .preview-top {
+            height: 34px;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 0 14px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #cbd5e1;
+        }
+        .preview-body {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 14px;
-            margin: 26px 0;
+            grid-template-columns: 150px 1fr;
+            min-height: 250px;
         }
-        .info-box {
-            background: #f3f6fb;
-            border: 1px solid #e5ebf5;
-            border-radius: 16px;
-            padding: 16px;
+        .preview-side {
+            background: #f3f2f1;
+            border-right: 1px solid #e5e7eb;
+            padding: 18px 14px;
         }
-        .info-label {
-            color: #64748b;
-            font-size: 13px;
-            margin-bottom: 4px;
+        .preview-pill {
+            height: 30px;
+            border-radius: 8px;
+            background: #2564cf;
+            margin-bottom: 12px;
+        }
+        .preview-line {
+            height: 12px;
+            border-radius: 999px;
+            background: #dbe4f0;
+            margin-bottom: 12px;
+        }
+        .preview-main {
+            padding: 22px;
+            background: linear-gradient(180deg, rgba(37, 100, 207, 0.12), transparent 120px), #faf9f8;
+        }
+        .preview-heading {
+            width: 160px;
+            height: 24px;
+            border-radius: 999px;
+            background: #2564cf;
+            margin-bottom: 22px;
+        }
+        .preview-task {
+            height: 44px;
+            border-radius: 10px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 10px;
+        }
+        .preview-task.short {
+            width: 76%;
+        }
+        .preview-task.medium {
+            width: 88%;
         }
         .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            border-radius: 999px;
-            padding: 10px 18px;
+            position: absolute;
+            right: 28px;
+            bottom: 28px;
+            width: 52px;
+            height: 52px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
             background: #2564cf;
             color: white;
             text-decoration: none;
-            font-weight: 600;
+            font-size: 28px;
+            line-height: 1;
+            box-shadow: 0 12px 26px rgba(37, 100, 207, 0.28);
         }
         .back-button:hover {
             background: #174ea6;
@@ -91,8 +166,15 @@
             .profile-card {
                 grid-template-columns: 1fr;
             }
-            .info-grid {
+            .details-panel,
+            .identity-panel {
+                padding: 34px;
+            }
+            .preview-body {
                 grid-template-columns: 1fr;
+            }
+            .preview-side {
+                display: none;
             }
         }
     </style>
@@ -101,44 +183,36 @@
 <main class="page">
     <section class="profile-card">
         <aside class="identity-panel">
-            <div>
-                <div class="initials">BE</div>
-                <p class="text-white-50 mb-2">About me</p>
-                <h1 class="display-6 fw-semibold mb-0">Bulgariu Elena Iuliana</h1>
-            </div>
-            <p class="mb-0 text-white-50">
-                Pagina face parte din versiunea finala a aplicatiei Homemade To Do.
-            </p>
+            <h1 class="student-name">Bulgariu Elena Iuliana</h1>
+            <div class="student-group">Grupa SC31211B</div>
         </aside>
 
         <div class="details-panel">
-            <p class="text-uppercase text-primary fw-semibold small mb-2">TWAAOS · Laborator 07</p>
-            <h2 class="h3 mb-3">Aplicatie finala cu interfata proprie</h2>
-            <p class="text-muted">
-                Proiectul combina un API FastAPI cu autentificare JWT, stocare SQLite si o interfata web
-                care permite gestionarea sarcinilor direct din browser.
-            </p>
+            <h2 class="section-title">Homemade To Do</h2>
 
-            <div class="info-grid">
-                <div class="info-box">
-                    <div class="info-label">Student</div>
-                    <div class="fw-semibold">Bulgariu Elena Iuliana</div>
+            <div class="app-preview" aria-label="Preview aplicatie Homemade To Do">
+                <div class="preview-top">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
                 </div>
-                <div class="info-box">
-                    <div class="info-label">Aplicatie</div>
-                    <div class="fw-semibold">Homemade To Do</div>
-                </div>
-                <div class="info-box">
-                    <div class="info-label">Backend</div>
-                    <div class="fw-semibold">FastAPI + SQLite + JWT</div>
-                </div>
-                <div class="info-box">
-                    <div class="info-label">Frontend</div>
-                    <div class="fw-semibold">HTML, Bootstrap, JavaScript</div>
+                <div class="preview-body">
+                    <div class="preview-side">
+                        <div class="preview-pill"></div>
+                        <div class="preview-line"></div>
+                        <div class="preview-line"></div>
+                        <div class="preview-line"></div>
+                    </div>
+                    <div class="preview-main">
+                        <div class="preview-heading"></div>
+                        <div class="preview-task"></div>
+                        <div class="preview-task medium"></div>
+                        <div class="preview-task short"></div>
+                    </div>
                 </div>
             </div>
 
-            <a class="back-button" href="/">Inapoi la aplicatie</a>
+            <a class="back-button" href="/" aria-label="Inapoi la aplicatie">‹</a>
         </div>
     </section>
 </main>
