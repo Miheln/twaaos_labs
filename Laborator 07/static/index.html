@@ -28,9 +28,7 @@
             min-height: 100vh;
             display: grid;
             grid-template-columns: minmax(320px, 460px) 1fr;
-            background:
-                radial-gradient(circle at 80% 10%, rgba(37, 100, 207, 0.18), transparent 32%),
-                linear-gradient(135deg, #ffffff, #eef4ff);
+            background: #ffffff;
         }
         .auth-side {
             background: #ffffff;
@@ -41,38 +39,198 @@
             justify-content: center;
         }
         .auth-preview {
-            padding: 64px;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 76% 18%, rgba(37, 100, 207, 0.22), transparent 26%),
+                radial-gradient(circle at 22% 78%, rgba(23, 78, 166, 0.14), transparent 30%),
+                linear-gradient(135deg, #f8fbff 0%, #eaf2ff 52%, #ffffff 100%);
+        }
+        .wallpaper-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(37, 100, 207, 0.055) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(37, 100, 207, 0.055) 1px, transparent 1px);
+            background-size: 44px 44px;
+            mask-image: linear-gradient(90deg, transparent, #000 18%, #000 84%, transparent);
+        }
+        .wallpaper-orb {
+            position: absolute;
+            border-radius: 999px;
+            filter: blur(2px);
+            opacity: 0.75;
+        }
+        .orb-one {
+            width: 220px;
+            height: 220px;
+            right: 8%;
+            top: 12%;
+            background: rgba(37, 100, 207, 0.18);
+        }
+        .orb-two {
+            width: 170px;
+            height: 170px;
+            left: 11%;
+            bottom: 14%;
+            background: rgba(23, 78, 166, 0.12);
+        }
+        .showcase {
+            position: absolute;
+            width: min(760px, 82%);
+            right: 8%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .showcase-window {
+            overflow: hidden;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.86);
+            box-shadow: 0 34px 90px rgba(37, 100, 207, 0.24);
+            backdrop-filter: blur(16px);
+        }
+        .showcase-top {
+            height: 44px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 8px;
+            padding: 0 18px;
+            background: rgba(243, 244, 246, 0.86);
+            border-bottom: 1px solid #e5e7eb;
         }
-        .preview-board {
-            width: min(560px, 100%);
-            background: rgba(255, 255, 255, 0.76);
-            border: 1px solid rgba(255, 255, 255, 0.85);
-            border-radius: 28px;
-            box-shadow: 0 28px 80px rgba(37, 100, 207, 0.18);
-            padding: 28px;
+        .showcase-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #cbd5e1;
         }
-        .info-line {
+        .showcase-body {
             display: grid;
-            grid-template-columns: 34px 1fr;
-            gap: 14px;
-            padding: 16px 0;
-            border-top: 1px solid var(--todo-border);
+            grid-template-columns: 190px 1fr;
+            min-height: 440px;
         }
-        .info-line:first-of-type {
-            border-top: 0;
+        .showcase-side {
+            background: #f3f2f1;
+            border-right: 1px solid #e5e7eb;
+            padding: 24px 18px;
         }
-        .info-icon {
+        .showcase-profile {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .showcase-avatar {
             width: 34px;
             height: 34px;
-            border-radius: 8px;
-            display: grid;
-            place-items: center;
+            border-radius: 50%;
+            background: var(--todo-blue);
+        }
+        .showcase-line {
+            height: 11px;
+            border-radius: 999px;
+            background: #d7deea;
+            margin-bottom: 9px;
+        }
+        .showcase-line.short {
+            width: 66%;
+        }
+        .showcase-nav {
+            height: 38px;
+            border-radius: 10px;
             background: #e7f0ff;
-            color: var(--todo-blue-dark);
-            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .showcase-nav.dim {
+            background: #e9edf4;
+        }
+        .showcase-main {
+            padding: 34px;
+            background:
+                linear-gradient(180deg, rgba(37, 100, 207, 0.14), transparent 170px),
+                #faf9f8;
+        }
+        .showcase-title {
+            width: 190px;
+            height: 34px;
+            border-radius: 999px;
+            background: var(--todo-blue);
+            margin-bottom: 24px;
+        }
+        .showcase-add {
+            height: 70px;
+            border-radius: 16px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+            margin-bottom: 20px;
+        }
+        .showcase-task {
+            min-height: 58px;
+            border-radius: 15px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+            margin-bottom: 12px;
+            display: grid;
+            grid-template-columns: 28px 1fr 54px;
+            gap: 12px;
+            align-items: center;
+            padding: 14px;
+        }
+        .showcase-check {
+            width: 21px;
+            height: 21px;
+            border-radius: 50%;
+            border: 2px solid var(--todo-blue);
+        }
+        .showcase-task-text {
+            height: 13px;
+            border-radius: 999px;
+            background: #d8e0ec;
+        }
+        .showcase-task-text.small {
+            width: 58%;
+            margin-top: 8px;
+        }
+        .showcase-action {
+            height: 24px;
+            border-radius: 999px;
+            background: #eef4ff;
+        }
+        .floating-card {
+            position: absolute;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 18px 44px rgba(37, 100, 207, 0.18);
+            backdrop-filter: blur(12px);
+            padding: 18px;
+        }
+        .floating-card.one {
+            width: 210px;
+            left: -52px;
+            top: 28px;
+        }
+        .floating-card.two {
+            width: 230px;
+            right: -38px;
+            bottom: 34px;
+        }
+        .floating-title {
+            height: 14px;
+            width: 70%;
+            border-radius: 999px;
+            background: #2564cf;
+            margin-bottom: 12px;
+        }
+        .floating-text {
+            height: 10px;
+            border-radius: 999px;
+            background: #d8e0ec;
+            margin-bottom: 8px;
         }
         .auth-panel {
             display: none;
@@ -273,6 +431,24 @@
                 grid-template-columns: 1fr;
             }
             .auth-preview {
+                min-height: 360px;
+            }
+            .showcase {
+                position: relative;
+                width: calc(100% - 32px);
+                right: auto;
+                top: auto;
+                transform: none;
+                margin: 24px auto;
+            }
+            .showcase-body {
+                grid-template-columns: 1fr;
+                min-height: 320px;
+            }
+            .showcase-side {
+                display: none;
+            }
+            .floating-card {
                 display: none;
             }
             .todo-sidebar {
@@ -323,29 +499,70 @@
     </aside>
 
     <div class="auth-preview">
-        <div class="preview-board">
-            <p class="text-muted mb-2">Ce contine aplicatia</p>
-            <h2 class="h4 mb-4">Interfata web conectata la API</h2>
-            <div class="info-line">
-                <div class="info-icon">1</div>
-                <div>
-                    <h3 class="h6 mb-1">Autentificare cu token JWT</h3>
-                    <p class="text-muted mb-0">Utilizatorul creeaza cont, se conecteaza, iar tokenul este trimis la cererile protejate.</p>
+        <div class="wallpaper-grid"></div>
+        <div class="wallpaper-orb orb-one"></div>
+        <div class="wallpaper-orb orb-two"></div>
+        <div class="showcase" aria-hidden="true">
+            <div class="floating-card one">
+                <div class="floating-title"></div>
+                <div class="floating-text"></div>
+                <div class="floating-text"></div>
+                <div class="floating-text w-50"></div>
+            </div>
+            <div class="showcase-window">
+                <div class="showcase-top">
+                    <span class="showcase-dot"></span>
+                    <span class="showcase-dot"></span>
+                    <span class="showcase-dot"></span>
+                </div>
+                <div class="showcase-body">
+                    <div class="showcase-side">
+                        <div class="showcase-profile">
+                            <div class="showcase-avatar"></div>
+                            <div class="flex-grow-1">
+                                <div class="showcase-line"></div>
+                                <div class="showcase-line short"></div>
+                            </div>
+                        </div>
+                        <div class="showcase-nav"></div>
+                        <div class="showcase-nav dim"></div>
+                        <div class="showcase-nav dim"></div>
+                    </div>
+                    <div class="showcase-main">
+                        <div class="showcase-title"></div>
+                        <div class="showcase-add"></div>
+                        <div class="showcase-task">
+                            <div class="showcase-check"></div>
+                            <div>
+                                <div class="showcase-task-text"></div>
+                                <div class="showcase-task-text small"></div>
+                            </div>
+                            <div class="showcase-action"></div>
+                        </div>
+                        <div class="showcase-task">
+                            <div class="showcase-check"></div>
+                            <div>
+                                <div class="showcase-task-text"></div>
+                                <div class="showcase-task-text small"></div>
+                            </div>
+                            <div class="showcase-action"></div>
+                        </div>
+                        <div class="showcase-task">
+                            <div class="showcase-check"></div>
+                            <div>
+                                <div class="showcase-task-text"></div>
+                                <div class="showcase-task-text small"></div>
+                            </div>
+                            <div class="showcase-action"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="info-line">
-                <div class="info-icon">2</div>
-                <div>
-                    <h3 class="h6 mb-1">Date salvate in SQLite</h3>
-                    <p class="text-muted mb-0">Sarcinile raman in baza de date locala si pot fi citite dupa reincarcarea paginii.</p>
-                </div>
-            </div>
-            <div class="info-line">
-                <div class="info-icon">3</div>
-                <div>
-                    <h3 class="h6 mb-1">Frontend cu fetch si CORS</h3>
-                    <p class="text-muted mb-0">Pagina HTML apeleaza API-ul prin JavaScript si demonstreaza comunicarea dintre porturi diferite.</p>
-                </div>
+            <div class="floating-card two">
+                <div class="floating-title"></div>
+                <div class="floating-text"></div>
+                <div class="floating-text"></div>
+                <div class="floating-text w-75"></div>
             </div>
         </div>
     </div>
