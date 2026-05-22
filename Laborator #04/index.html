@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do - Laborator #04</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --todo-blue: #2564cf;
+            --todo-blue-dark: #174ea6;
+            --todo-bg: #faf9f8;
+            --todo-panel: #f3f2f1;
+            --todo-border: #edebe9;
+            --todo-text: #323130;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--todo-bg);
+            color: var(--todo-text);
+            font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        .auth-page {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: minmax(320px, 460px) 1fr;
+            background:
+                radial-gradient(circle at 80% 10%, rgba(37, 100, 207, 0.18), transparent 32%),
+                linear-gradient(135deg, #ffffff, #eef4ff);
+        }
+        .auth-side {
+            background: #ffffff;
+            border-right: 1px solid var(--todo-border);
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .auth-preview {
+            padding: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .preview-board {
+            width: min(560px, 100%);
+            background: rgba(255, 255, 255, 0.76);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            border-radius: 28px;
+            box-shadow: 0 28px 80px rgba(37, 100, 207, 0.18);
+            padding: 28px;
+        }
+        .info-line {
+            display: grid;
+            grid-template-columns: 34px 1fr;
+            gap: 14px;
+            padding: 16px 0;
+            border-top: 1px solid var(--todo-border);
+        }
+        .info-line:first-of-type {
+            border-top: 0;
+        }
+        .info-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            background: #e7f0ff;
+            color: var(--todo-blue-dark);
+            font-weight: 700;
+        }
+        .auth-panel {
+            display: none;
+        }
+        .auth-panel.active {
+            display: block;
+        }
+        .link-button {
+            border: 0;
+            background: transparent;
+            color: var(--todo-blue);
+            padding: 0;
+        }
+        .todo-app {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 290px 1fr;
+        }
+        .todo-sidebar {
+            background: var(--todo-panel);
+            border-right: 1px solid var(--todo-border);
+            padding: 18px;
+        }
+        .profile-line {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 8px 18px;
+            border-bottom: 1px solid #e1dfdd;
+            margin-bottom: 14px;
+        }
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--todo-blue);
+            color: white;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+        }
+        .nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .nav-list li {
+            padding: 10px 12px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: default;
+        }
+        .nav-list li.active {
+            background: #e7f0ff;
+            color: var(--todo-blue-dark);
+            font-weight: 600;
+        }
+        .todo-main {
+            padding: 36px clamp(20px, 5vw, 72px);
+            background:
+                linear-gradient(180deg, rgba(37, 100, 207, 0.12), transparent 240px),
+                var(--todo-bg);
+        }
+        .todo-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+        .todo-title {
+            color: var(--todo-blue-dark);
+            font-weight: 650;
+        }
+        .quick-add {
+            background: #ffffff;
+            border: 1px solid var(--todo-border);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            padding: 14px;
+            margin-bottom: 18px;
+        }
+        .quick-add input,
+        .quick-add textarea {
+            border: 0;
+            box-shadow: none;
+        }
+        .quick-add input:focus,
+        .quick-add textarea:focus {
+            box-shadow: none;
+        }
+        .toolbar-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .task-row {
+            background: #ffffff;
+            border: 1px solid var(--todo-border);
+            border-radius: 8px;
+            padding: 14px 16px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 12px;
+            align-items: start;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+        }
+        .task-row.done .task-title {
+            text-decoration: line-through;
+            color: #605e5c;
+        }
+        .circle-button {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid var(--todo-blue);
+            background: white;
+            color: var(--todo-blue);
+            line-height: 16px;
+            display: grid;
+            place-items: center;
+            margin-top: 2px;
+        }
+        .circle-button.done {
+            background: var(--todo-blue);
+            color: white;
+        }
+        .row-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 48px 16px;
+            color: #605e5c;
+        }
+        .edit-card {
+            grid-column: 1 / -1;
+            background: #f8fbff;
+            border-radius: 8px;
+            padding: 12px;
+        }
+        @media (max-width: 850px) {
+            .auth-page,
+            .todo-app {
+                grid-template-columns: 1fr;
+            }
+            .auth-preview {
+                display: none;
+            }
+            .todo-sidebar {
+                border-right: 0;
+                border-bottom: 1px solid var(--todo-border);
+            }
+            .toolbar-row,
+            .todo-header {
+                grid-template-columns: 1fr;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+<section id="auth-view" class="auth-page">
+    <aside class="auth-side">
+        <h1 class="h2 mb-3">Homemade To Do</h1>
+        <p class="text-muted mb-4">Creeaza cont, conecteaza-te si gestioneaza sarcini prin API-ul FastAPI.</p>
+
+        <div id="register-panel" class="auth-panel active">
+            <h2 class="h5 mb-3">Creeaza un cont nou</h2>
+            <div id="register-message" class="alert d-none"></div>
+            <label class="form-label">Email</label>
+            <input id="register-email" type="email" class="form-control form-control-lg" placeholder="nume@example.com">
+            <label class="form-label mt-3">Parola</label>
+            <input id="register-password" type="password" class="form-control form-control-lg" placeholder="minim 8 caractere">
+            <button class="btn btn-primary btn-lg w-100 mt-4" onclick="registerUser()">Creeaza cont</button>
+            <p class="mt-3 mb-0">
+                Ai deja cont?
+                <button class="link-button" onclick="showLogin()">Mergi la conectare</button>
+            </p>
+        </div>
+
+        <div id="login-panel" class="auth-panel">
+            <h2 class="h5 mb-3">Conectare</h2>
+            <div id="login-message" class="alert alert-danger d-none"></div>
+            <label class="form-label">Email</label>
+            <input id="login-email" type="email" class="form-control form-control-lg">
+            <label class="form-label mt-3">Parola</label>
+            <input id="login-password" type="password" class="form-control form-control-lg">
+            <button class="btn btn-primary btn-lg w-100 mt-4" onclick="loginUser()">Intra in To Do</button>
+            <p class="mt-3 mb-0">
+                Nu ai cont?
+                <button class="link-button" onclick="showRegister()">Creeaza unul</button>
+            </p>
+        </div>
+    </aside>
+
+    <div class="auth-preview">
+        <div class="preview-board">
+            <p class="text-muted mb-2">Ce contine aplicatia</p>
+            <h2 class="h4 mb-4">Interfata web conectata la API</h2>
+            <div class="info-line">
+                <div class="info-icon">1</div>
+                <div>
+                    <h3 class="h6 mb-1">Autentificare cu token JWT</h3>
+                    <p class="text-muted mb-0">Utilizatorul creeaza cont, se conecteaza, iar tokenul este trimis la cererile protejate.</p>
+                </div>
+            </div>
+            <div class="info-line">
+                <div class="info-icon">2</div>
+                <div>
+                    <h3 class="h6 mb-1">Date salvate in SQLite</h3>
+                    <p class="text-muted mb-0">Sarcinile raman in baza de date locala si pot fi citite dupa reincarcarea paginii.</p>
+                </div>
+            </div>
+            <div class="info-line">
+                <div class="info-icon">3</div>
+                <div>
+                    <h3 class="h6 mb-1">Frontend cu fetch si CORS</h3>
+                    <p class="text-muted mb-0">Pagina HTML apeleaza API-ul prin JavaScript si demonstreaza comunicarea dintre porturi diferite.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="tasks-view" class="todo-app d-none">
+    <aside class="todo-sidebar">
+        <div class="profile-line">
+            <div class="avatar" id="avatar-letter">I</div>
+            <div>
+                <div class="fw-semibold" id="current-email"></div>
+                <button class="link-button small" onclick="logout()">Deconectare</button>
+            </div>
+        </div>
+        <ul class="nav-list">
+            <li class="active"><span>☀ Ziua mea</span><span id="open-count">0</span></li>
+            <li><span>★ Important</span><span>0</span></li>
+            <li><span>☰ Toate sarcinile</span><span id="all-count">0</span></li>
+        </ul>
+    </aside>
+
+    <main class="todo-main">
+        <header class="todo-header">
+            <div>
+                <h1 class="todo-title mb-1">Ziua mea</h1>
+                <p class="text-muted mb-0" id="task-summary">0 sarcini</p>
+            </div>
+            <div class="form-check">
+                <input id="only-open" class="form-check-input" type="checkbox" onchange="loadTasks()">
+                <label class="form-check-label" for="only-open">Ascunde finalizatele</label>
+            </div>
+        </header>
+
+        <div class="quick-add">
+            <input id="task-title" class="form-control form-control-lg" placeholder="+ Adauga o sarcina">
+            <textarea id="task-description" class="form-control mt-2" rows="2" placeholder="Adauga o nota optionala"></textarea>
+            <div class="text-end mt-2">
+                <button class="btn btn-primary" onclick="addTask()">Adauga</button>
+            </div>
+        </div>
+
+        <div class="toolbar-row">
+            <input id="search-box" class="form-control" placeholder="Cauta in lista curenta" oninput="renderFilteredTasks()">
+            <button class="btn btn-outline-secondary" onclick="loadTasks()">Reincarca</button>
+        </div>
+
+        <div id="task-list"></div>
+    </main>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const API = "http://127.0.0.1:8000";
+    let tasksCache = [];
+    let editId = null;
+
+    function getToken() {
+        return localStorage.getItem("lab04_token");
+    }
+
+    function setToken(token) {
+        localStorage.setItem("lab04_token", token);
+    }
+
+    function authHeaders() {
+        return { "Authorization": `Bearer ${getToken()}` };
+    }
+
+    function logout() {
+        localStorage.removeItem("lab04_token");
+        tasksCache = [];
+        editId = null;
+        updateScreen();
+    }
+
+    function showRegister() {
+        document.getElementById("register-panel").classList.add("active");
+        document.getElementById("login-panel").classList.remove("active");
+        hideMessage("login-message");
+    }
+
+    function showLogin() {
+        document.getElementById("register-panel").classList.remove("active");
+        document.getElementById("login-panel").classList.add("active");
+        hideMessage("register-message");
+    }
+
+    function setMessage(id, text, type) {
+        const box = document.getElementById(id);
+        box.className = `alert alert-${type}`;
+        box.textContent = text;
+    }
+
+    function hideMessage(id) {
+        document.getElementById(id).className = "alert d-none";
+    }
+
+    function escapeHtml(value) {
+        const div = document.createElement("div");
+        div.textContent = String(value ?? "");
+        return div.innerHTML;
+    }
+
+    function getEmailFromToken() {
+        try {
+            const payload = JSON.parse(atob(getToken().split(".")[1]));
+            return payload.sub || "";
+        } catch {
+            return "";
+        }
+    }
+
+    function updateScreen() {
+        const loggedIn = Boolean(getToken());
+        document.getElementById("auth-view").classList.toggle("d-none", loggedIn);
+        document.getElementById("tasks-view").classList.toggle("d-none", !loggedIn);
+
+        if (loggedIn) {
+            const email = getEmailFromToken();
+            document.getElementById("current-email").textContent = email;
+            document.getElementById("avatar-letter").textContent = (email[0] || "I").toUpperCase();
+            loadTasks();
+        }
+    }
+
+    async function registerUser() {
+        hideMessage("register-message");
+        const email = document.getElementById("register-email").value.trim();
+        const parola = document.getElementById("register-password").value;
+
+        try {
+            const response = await fetch(`${API}/inregistrare`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, parola })
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                setMessage("register-message", formatError(data.detail), "danger");
+                return;
+            }
+            setMessage("register-message", "Cont creat. Apasa pe 'Mergi la conectare' cand vrei sa intri.", "success");
+            document.getElementById("login-email").value = email;
+        } catch {
+            setMessage("register-message", "Serverul API nu raspunde.", "danger");
+        }
+    }
+
+    async function loginUser() {
+        hideMessage("login-message");
+        const formData = new URLSearchParams();
+        formData.append("username", document.getElementById("login-email").value.trim());
+        formData.append("password", document.getElementById("login-password").value);
+
+        try {
+            const response = await fetch(`${API}/autentificare`, {
+                method: "POST",
+                body: formData
+            });
+            if (!response.ok) {
+                setMessage("login-message", "Email sau parola incorecta.", "danger");
+                return;
+            }
+            const data = await response.json();
+            setToken(data.access_token);
+            updateScreen();
+        } catch {
+            setMessage("login-message", "Serverul API nu raspunde.", "danger");
+        }
+    }
+
+    async function loadTasks() {
+        const onlyOpen = document.getElementById("only-open").checked;
+        const url = onlyOpen ? `${API}/sarcini?doar_nefinalizate=true` : `${API}/sarcini`;
+
+        try {
+            const response = await fetch(url, { headers: authHeaders() });
+            if (response.status === 401) {
+                logout();
+                return;
+            }
+            if (!response.ok) return;
+            tasksCache = await response.json();
+            renderFilteredTasks();
+        } catch {
+            document.getElementById("task-list").innerHTML =
+                `<div class="alert alert-warning">Nu se poate contacta serverul.</div>`;
+        }
+    }
+
+    function renderFilteredTasks() {
+        const search = document.getElementById("search-box").value.trim().toLowerCase();
+        const visibleTasks = tasksCache.filter((task) =>
+            task.titlu.toLowerCase().includes(search)
+        );
+        renderTasks(visibleTasks);
+    }
+
+    function renderTasks(tasks) {
+        const doneCount = tasksCache.filter((task) => task.finalizata).length;
+        const openCount = tasksCache.length - doneCount;
+        document.getElementById("task-summary").textContent =
+            `${tasksCache.length} sarcini / ${doneCount} finalizate`;
+        document.getElementById("all-count").textContent = tasksCache.length;
+        document.getElementById("open-count").textContent = openCount;
+
+        const list = document.getElementById("task-list");
+        if (tasks.length === 0) {
+            list.innerHTML = `<div class="empty-state">Nu exista sarcini de afisat.</div>`;
+            return;
+        }
+
+        list.innerHTML = tasks.map((task) => {
+            if (task.id === editId) {
+                return editTemplate(task);
+            }
+            return taskTemplate(task);
+        }).join("");
+    }
+
+    function taskTemplate(task) {
+        const done = Boolean(task.finalizata);
+        return `
+            <div class="task-row ${done ? "done" : ""}">
+                <button class="circle-button ${done ? "done" : ""}" onclick="finishTask(${task.id})" ${done ? "disabled" : ""}>
+                    ${done ? "✓" : ""}
+                </button>
+                <div>
+                    <div class="task-title">${escapeHtml(task.titlu)}</div>
+                    <small class="text-muted">${escapeHtml(task.descriere || "Fara descriere")}</small>
+                </div>
+                <div class="row-actions">
+                    <button class="btn btn-sm btn-light" onclick="startEdit(${task.id})">Edit</button>
+                    <button class="btn btn-sm btn-light text-danger" onclick="deleteTask(${task.id})">Sterge</button>
+                </div>
+            </div>`;
+    }
+
+    function editTemplate(task) {
+        return `
+            <div class="task-row">
+                <span class="circle-button"></span>
+                <div class="edit-card">
+                    <label class="form-label">Titlu</label>
+                    <input id="edit-title-${task.id}" class="form-control mb-2" value="${escapeHtml(task.titlu)}">
+                    <label class="form-label">Descriere</label>
+                    <textarea id="edit-description-${task.id}" class="form-control mb-3" rows="3">${escapeHtml(task.descriere || "")}</textarea>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary btn-sm" onclick="saveEdit(${task.id})">Salveaza</button>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="cancelEdit()">Renunta</button>
+                    </div>
+                </div>
+            </div>`;
+    }
+
+    async function addTask() {
+        const titlu = document.getElementById("task-title").value.trim();
+        const descriere = document.getElementById("task-description").value.trim();
+        if (!titlu) return;
+
+        const response = await fetch(`${API}/sarcini`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                ...authHeaders()
+            },
+            body: JSON.stringify({ titlu, descriere })
+        });
+
+        if (response.ok) {
+            document.getElementById("task-title").value = "";
+            document.getElementById("task-description").value = "";
+            loadTasks();
+        }
+    }
+
+    function startEdit(id) {
+        editId = id;
+        renderFilteredTasks();
+    }
+
+    function cancelEdit() {
+        editId = null;
+        renderFilteredTasks();
+    }
+
+    async function saveEdit(id) {
+        const titlu = document.getElementById(`edit-title-${id}`).value.trim();
+        const descriere = document.getElementById(`edit-description-${id}`).value.trim();
+        if (!titlu) return;
+
+        const response = await fetch(`${API}/sarcini/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                ...authHeaders()
+            },
+            body: JSON.stringify({ titlu, descriere })
+        });
+
+        if (response.ok) {
+            editId = null;
+            loadTasks();
+        }
+    }
+
+    async function finishTask(id) {
+        const response = await fetch(`${API}/sarcini/${id}/finalizeaza`, {
+            method: "PATCH",
+            headers: authHeaders()
+        });
+        if (response.ok) loadTasks();
+    }
+
+    async function deleteTask(id) {
+        if (!window.confirm("Sigur stergi aceasta sarcina?")) return;
+
+        const response = await fetch(`${API}/sarcini/${id}`, {
+            method: "DELETE",
+            headers: authHeaders()
+        });
+        if (response.ok) loadTasks();
+    }
+
+    function formatError(detail) {
+        if (Array.isArray(detail)) {
+            return detail.map((item) => item.msg).join("; ");
+        }
+        return detail || "A aparut o eroare.";
+    }
+
+    document.addEventListener("DOMContentLoaded", updateScreen);
+</script>
+</body>
+</html>
