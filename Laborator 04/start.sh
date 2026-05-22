@@ -21,7 +21,7 @@ uvicorn main:app --host 127.0.0.1 --port "$API_PORT" &
 API_PID=$!
 
 echo "Pornesc interfata web pe portul ${UI_PORT}..."
-python3 -m http.server "$UI_PORT" --bind 127.0.0.1 >/tmp/iuliana_lab04_ui.log 2>&1 &
+python3 -m http.server "$UI_PORT" --bind 127.0.0.1 >/tmp/twaaos_lab04_ui.log 2>&1 &
 UI_PID=$!
 
 trap 'kill "$API_PID" "$UI_PID" 2>/dev/null || true' EXIT INT TERM
