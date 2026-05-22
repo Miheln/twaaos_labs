@@ -1,4 +1,4 @@
-# Laborator #05 - Deploy
+# Laborator 05 - Deploy
 
 Aplicatia este pregatita pentru publicare pe Render.
 

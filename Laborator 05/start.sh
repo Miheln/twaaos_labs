@@ -18,7 +18,7 @@ if [[ ! -f .env ]]; then
   cp .env.example .env
 fi
 
-echo "Pornesc Laborator #05 pe portul ${PORT}..."
+echo "Pornesc Laborator 05 pe portul ${PORT}..."
 uvicorn main:app --host 127.0.0.1 --port "$PORT" &
 SERVER_PID=$!
 
