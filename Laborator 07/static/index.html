@@ -42,19 +42,22 @@
             position: relative;
             overflow: hidden;
             min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: clamp(42px, 6vw, 84px);
             background:
-                radial-gradient(circle at 76% 18%, rgba(37, 100, 207, 0.22), transparent 26%),
-                radial-gradient(circle at 22% 78%, rgba(23, 78, 166, 0.14), transparent 30%),
-                linear-gradient(135deg, #f8fbff 0%, #eaf2ff 52%, #ffffff 100%);
+                radial-gradient(circle at 78% 18%, rgba(37, 100, 207, 0.20), transparent 27%),
+                radial-gradient(circle at 24% 78%, rgba(23, 78, 166, 0.12), transparent 31%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.76), transparent 42%),
+                linear-gradient(135deg, #f8fbff 0%, #eaf2ff 55%, #ffffff 100%);
         }
         .wallpaper-grid {
             position: absolute;
             inset: 0;
-            background-image:
-                linear-gradient(rgba(37, 100, 207, 0.055) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(37, 100, 207, 0.055) 1px, transparent 1px);
-            background-size: 44px 44px;
-            mask-image: linear-gradient(90deg, transparent, #000 18%, #000 84%, transparent);
+            background:
+                radial-gradient(circle at 26% 28%, rgba(255, 255, 255, 0.72), transparent 25%),
+                radial-gradient(circle at 78% 72%, rgba(255, 255, 255, 0.54), transparent 28%);
+            opacity: 0.9;
         }
         .wallpaper-orb {
             position: absolute;
@@ -77,11 +80,10 @@
             background: rgba(23, 78, 166, 0.12);
         }
         .showcase {
-            position: absolute;
-            width: min(760px, 82%);
-            right: 8%;
-            top: 50%;
-            transform: translateY(-50%);
+            position: relative;
+            width: min(760px, 88%);
+            transform: translateX(1%);
+            z-index: 1;
         }
         .showcase-window {
             overflow: hidden;
